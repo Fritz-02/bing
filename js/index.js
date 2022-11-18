@@ -30,7 +30,7 @@ fetch("./data/count.csv")
       yearCell.append(yearText);
 
       let date = new Date();
-      date.setMonth(item.month);
+      date.setMonth(parseInt(item.month) - 1);
       let monthCell = row.insertCell();
       let monthText = document.createTextNode(
         date.toLocaleDateString("en-US", { month: "long" })
