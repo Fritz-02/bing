@@ -51,7 +51,7 @@ function fetchCount() {
     .then((response) => response.json())
     .then((data) => {
       const totalCount = data.count + prevCount;
-      counter.innerHTML = totalCount.toString();
+      counter.innerHTML = totalCount.toLocaleString();
     });
 }
 

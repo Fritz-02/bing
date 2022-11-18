@@ -1,0 +1,25 @@
+body {
+    background-image: url("../img/bingbg.png");
+    background-color: #17192e;
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: #ffffff;
+    width: min-content;
+}
+
+
+div.infoBox {
+    background-color: #17192e;
+}
+
+
+div.history {
+    text-align: center;
+    width: min-content;
+}
+
+
+#mmmm-table {
+    border-spacing: 5px 1rem;
+    margin: 0 auto;
+}
