@@ -62,7 +62,7 @@ ws.on("message", async function message(data) {
   let msgData = JSON.parse(str.substring(str.indexOf(" ") + 1));
   switch (msgType) {
     case "MSG":
-      if (msgData.nick == "Bing" || msgData.nick == "Fritz") {
+      if (msgData.nick == "Bing") {
         count += (msgData.data.match(/(?<=(^|\s))MMMM(?=($|\s))/g) || [])
           .length;
         await updateCounter();
