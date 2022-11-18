@@ -1,0 +1,24 @@
+{
+  "name": "bing",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "",
+  "main": "js/countUpdater.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Fritz-02/bing.git"
+  },
+  "author": "Fritz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Fritz-02/bing/issues"
+  },
+  "homepage": "https://github.com/Fritz-02/bing#readme",
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.213.0",
+    "ws": "^8.11.0"
+  }
+}
