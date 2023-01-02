@@ -5,7 +5,6 @@ import {
   GetItemCommand,
 } from "@aws-sdk/client-dynamodb";
 import * as fs from "fs";
-import { log } from "console";
 
 const args = process.argv.slice(2);
 const client = new DynamoDBClient({ region: "us-west-2" });
