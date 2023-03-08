@@ -44,14 +44,17 @@ fetch("./data/count.csv")
     });
   });
 
-const counter = document.getElementById("counter");
+const totalCounter = document.getElementById("total-counter");
+const monthCounter = document.getElementById("month-counter");
+
 
 function fetchCount() {
   fetch("https://g7wog95atg.execute-api.us-west-2.amazonaws.com/bing")
     .then((response) => response.json())
     .then((data) => {
       const totalCount = data.count + prevCount;
-      counter.innerHTML = totalCount.toLocaleString();
+      totalCounter.innerHTML = totalCount.toLocaleString();
+      monthCounter.innerHTML = data.count.toLocaleString();
     });
 }
 
