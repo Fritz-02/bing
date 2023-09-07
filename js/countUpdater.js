@@ -80,55 +80,6 @@ async function updateFromRustleSearch(
     });
 }
 
-switch (args[0]) {
-  case "-U":
-    console.log("Updating count from RustleSearch...");
-    fs.readFile("data/count.csv", "utf8", async function (err, data) {
-      if (err) {
-        throw err;
-      }
-      let [year, month, _] = data.split(/\r?\n/)[1].split(",");
-      let monthInt = parseInt(month) + 1;
-      if (monthInt > 12) {
-        monthInt -= 12;
-        year++;
-      }
-      monthInt = monthInt > 12 ? monthInt - 12 : monthInt;
-      const monthStr = monthInt.toString().padStart(2, "0");
-      count = await updateFromRustleSearch(`${year}-${monthStr}-01`);
-      console.log(`Updated count: ${count}`);
-      await updateCounter();
-    });
-    break;
-  case "-csv":
-    const updateMonth = args[1]; // e.g. 2022-12
-    const yearStr = updateMonth.slice(0, 4);
-    const monthStr = updateMonth.slice(5);
-    const lastDayOfMonth = new Date(
-      parseInt(yearStr),
-      parseInt(monthStr),
-      0
-    ).getDate();
-    // Updates count.csv
-    fs.readFile("data/count.csv", "utf8", async function (err, data) {
-      if (err) {
-        throw err;
-      }
-      const monthCount = await updateFromRustleSearch(
-        `${updateMonth}-01`,
-        `${updateMonth}-${lastDayOfMonth}`
-      );
-      let lines = data.split(/\r?\n/);
-      lines.splice(1, 0, `${yearStr},${monthStr},${monthCount}`);
-      fs.writeFile("data/count.csv", lines.join("\n"), (err) => {
-        if (err) console.log(err);
-        console.log("Updated count.csv");
-      });
-    });
-    break;
-}
-
-// const ws = new WebSocket("wss://chat.destiny.gg/ws");
 const autoReconnectDelay = 5000;
 
 const connectToWSS = () => {
@@ -175,4 +126,51 @@ const connectToWSS = () => {
   return ws;
 };
 
-connectToWSS();
+switch (args[0]) {
+  case "-U":
+    console.log("Updating count from RustleSearch...");
+    fs.readFile("data/count.csv", "utf8", async function (err, data) {
+      if (err) {
+        throw err;
+      }
+      let [year, month, _] = data.split(/\r?\n/)[1].split(",");
+      let monthInt = parseInt(month) + 1;
+      if (monthInt > 12) {
+        monthInt -= 12;
+        year++;
+      }
+      monthInt = monthInt > 12 ? monthInt - 12 : monthInt;
+      const monthStr = monthInt.toString().padStart(2, "0");
+      count = await updateFromRustleSearch(`${year}-${monthStr}-01`);
+      console.log(`Updated count: ${count}`);
+      await updateCounter();
+    });
+    connectToWSS();
+    break;
+  case "-csv":
+    const updateMonth = args[1]; // e.g. 2022-12
+    const yearStr = updateMonth.slice(0, 4);
+    const monthStr = updateMonth.slice(5);
+    const lastDayOfMonth = new Date(
+      parseInt(yearStr),
+      parseInt(monthStr),
+      0
+    ).getDate();
+    // Updates count.csv
+    fs.readFile("data/count.csv", "utf8", async function (err, data) {
+      if (err) {
+        throw err;
+      }
+      const monthCount = await updateFromRustleSearch(
+        `${updateMonth}-01`,
+        `${updateMonth}-${lastDayOfMonth}`
+      );
+      let lines = data.split(/\r?\n/);
+      lines.splice(1, 0, `${yearStr},${monthStr},${monthCount}`);
+      fs.writeFile("data/count.csv", lines.join("\n"), (err) => {
+        if (err) console.log(err);
+        console.log("Updated count.csv");
+        process.exit(0);
+      });
+    });
+}
